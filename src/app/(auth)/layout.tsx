@@ -1,6 +1,5 @@
 "use client"
 import { AppLayout } from '@/components/app-layout';
-import { redirect } from 'next/navigation';
 // import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
 // type KindeBrowserClient = {
@@ -10,7 +9,6 @@ import { redirect } from 'next/navigation';
 
 export default function Home({children}:{children: React.ReactNode}) {
   // const { user, isLoading } = useKindeBrowserClient() as KindeBrowserClient
-  redirect('/chat')
 
 
   return (

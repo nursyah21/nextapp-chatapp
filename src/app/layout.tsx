@@ -26,8 +26,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const { isAuthenticated } = getKindeServerSession();
+  const { isAuthenticated: authenticated } = getKindeServerSession();
+  const isAuthenticated = await authenticated()
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -40,9 +40,9 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {!(await isAuthenticated()) ? (
+          {!isAuthenticated ? (
             <>
-            <LoginPage />
+              <LoginPage />
             </>
           ) : children
           }

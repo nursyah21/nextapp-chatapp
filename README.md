@@ -19,8 +19,8 @@
 ## prototype / flow application
 
 ### feature
-1. sign in google / email
-2. logout
+1. sign in google / email (x)
+2. logout (x)
 3. edit profile (username :unique, name, avatar)
 4. add user
 5. create channel (channel name :unique, picture channel)

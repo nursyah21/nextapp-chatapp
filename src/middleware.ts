@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const userid = request.headers.get('userid');
+  
 
   if (!userid) {
     return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
