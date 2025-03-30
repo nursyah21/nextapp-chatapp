@@ -48,6 +48,7 @@
         - /chat
             - page.tsx
                 - show list chat
+                - search chat
         - /chat/[id]
             - page.tsx
                 - send message (text / file)

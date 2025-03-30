@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LoginPage from "./login";
+import { CreateAccount } from "@/components/create-account";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default async function RootLayout({
 }>) {
   const { isAuthenticated: authenticated } = getKindeServerSession();
   const isAuthenticated = await authenticated()
+  
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -44,7 +46,7 @@ export default async function RootLayout({
             <>
               <LoginPage />
             </>
-          ) : children
+          ) : true ? <CreateAccount /> : children
           }
         </ThemeProvider>
         <Toaster closeButton position="top-right" />

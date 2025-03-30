@@ -1,4 +1,4 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs';
 import { LogOut, MessageSquare, User, Users } from 'lucide-react';
@@ -21,40 +21,22 @@ const items = [
 ];
 
 const AppSidebar = ({ pathname }: { pathname: string }) => (
-    <Sidebar variant="inset" className="w-16 border-r">
-        <SidebarContent className="flex flex-col items-center justify-center gap-4 py-4">
-            <SidebarGroup>
-                <SidebarGroupContent>
-                    <SidebarMenu>
-                        {items.map((item, idx) => (
-                            <SidebarMenuItem key={idx}>
-                                <SidebarMenuButton asChild>
-                                    <Link href={item.url}>
-                                        <item.icon
-                                            className={`h-5 w-5 ${pathname === item.url ? "opacity-100" : "opacity-50"
-                                                }`}
-                                        />
-                                    </Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter className="pb-4">
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                        <LogoutLink>
-                            <LogOut className="h-5 w-5 opacity-50" />
-                            <span className="sr-only">Logout</span>
-                        </LogoutLink>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarFooter>
-    </Sidebar>
+    <div className="flex flex-col w-16 h-screen p-4 border-r">
+        <div className="flex flex-1 flex-col justify-center">
+            {items.map((item, idx) => (
+                <Link className="p-2" key={idx} href={item.url}>
+                    <item.icon
+                        className={`h-5 w-5 ${pathname.startsWith(item.url) ? "opacity-100" : "opacity-50"
+                            }`}
+                    />
+                </Link>
+            ))}
+        </div>
+        <LogoutLink className="p-2">
+            <LogOut className="h-5 w-5 opacity-50" />
+            <span className="sr-only">Logout</span>
+        </LogoutLink>
+    </div>
 );
 
 const BottomBar = ({ pathname }: { pathname: string }) => (
@@ -62,7 +44,7 @@ const BottomBar = ({ pathname }: { pathname: string }) => (
         {items.map((item, idx) => (
             <Link key={idx} href={item.url}>
                 <item.icon
-                    className={`h-5 w-5 ${pathname === item.url ? "opacity-100" : "opacity-50"
+                    className={`h-5 w-5 ${pathname.startsWith(item.url) ? "opacity-100" : "opacity-50"
                         }`}
                 />
             </Link>
@@ -80,7 +62,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <SidebarProvider>
-            {isMobile ? <BottomBar pathname={pathname} /> : <AppSidebar pathname={pathname} />}
+            {isMobile ? <BottomBar pathname={pathname} /> :
+                <AppSidebar pathname={pathname} />}
             {children}
         </SidebarProvider>
     );
