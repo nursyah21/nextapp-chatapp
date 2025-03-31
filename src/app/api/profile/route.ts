@@ -1,33 +1,31 @@
-// import { NextResponse } from 'next/server';
-// import { db } from '@/database';
-// import { and, eq } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
+import { db } from '@/database';
+import { eq } from 'drizzle-orm';
+import { users, UsersSelectType } from '@/database/schema';
+import { cookies } from 'next/headers';
 
-// export async function GET(request: Request) {
-    // const userid = request.headers.get('userid');
-    // const expenses = await db.select().from(expensetable).where(eq(expensetable.userid, userid!))
-    // const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-    // throw Error("error")
-    // return NextResponse.json({ user_id: 'users' });
-// }
 
-// export async function POST(request: Request) {
-//     const userid = request.headers.get('userid');
-//     const expense = await request.json();
-//     const newExpense = await db.insert(expensetable).values({...expense, userid});
-//     return NextResponse.json(newExpense, { status: 201 });
-// }
+export async function GET(request: Request) {
+    const userid = request.headers.get('userid')!;
+    const profileData = JSON.parse((await cookies()).get(`profile_${userid}`)!.value)   
 
-// export async function PUT(request: Request) {
-//     const userid = request.headers.get('userid');
-//     const expense = await request.json();
+    return NextResponse.json({profile: profileData});
+}
 
-//     await db.update(expensetable).set({...expense, userid}).where(eq(expensetable.id, expense.id));
-//     return NextResponse.json({ message: 'Expense deleted' });
-// }
+// Create profile
+export async function POST(request: Request) {
+    const profileData = await request.json() as UsersSelectType;
+    // const userid = request.headers.get('userid')!;
+    
+    const newProfile = await db.insert(users).values({ ...profileData });
+    return NextResponse.json(newProfile, { status: 201 });
+}
 
-// export async function DELETE(request: Request) {
-//     const userid = request.headers.get('userid');
-//     const { id } = await request.json();
-//     await db.delete(expensetable).where(and(eq(expensetable.id, id), eq(expensetable.userid, userid!)));
-//     return NextResponse.json({ message: 'Expense deleted' });
-// }
+// Edit profile
+export async function PUT(request: Request) {
+    const userid = request.headers.get('userid')!;
+    const profileData = JSON.parse((await cookies()).get(`profile_${userid}`)!.value)
+    
+    const updatedProfile = await db.update(users).set(profileData).where(eq(users.id, userid));
+    return NextResponse.json({ message: 'Profile updated', updatedProfile });
+}

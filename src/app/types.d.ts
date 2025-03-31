@@ -1,4 +1,11 @@
+
+
 export type KindeBrowserClient = {
-    user: { email: string, given_name: string },
-    isLoading: boolean
+    user: {
+        id: string, 
+        email: string, 
+        given_name: string,
+        picture: string 
+    },
+    isLoading: boolean,
 }

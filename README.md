@@ -75,16 +75,20 @@
 - backend (/api) 
     - /auth/[kindeAuth]
     - /profile
+        - get profile
         - create profile
         - edit profile
     - /chat
+        - get message
         - send message
         - delete message
         - edit message
     - /contact
+        - get contact
         - add contact
         - search contact
     - /group
+        - get group
         - add group
         - search group
         - create group

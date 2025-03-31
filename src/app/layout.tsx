@@ -6,6 +6,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LoginPage from "./login";
 import { CreateAccount } from "@/components/create-account";
+// import { cookies } from "next/headers";
+// import { useSetUser } from "@/server/setUser";
+// import AuthProvider from "@/components/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +32,14 @@ export default async function RootLayout({
 }>) {
   const { isAuthenticated: authenticated } = getKindeServerSession();
   const isAuthenticated = await authenticated()
-  
+
+  // if (isAuthenticated) {
+  //   const cookieStore = await cookies();
+  //   const user = await getUser()
+
+  //   cookieStore.set("userid", user.id, { path: "/", httpOnly: true });
+
+  // }
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -42,6 +52,9 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* <AuthProvider isAuthenticated={isAuthenticated}>
+            {children}
+          </AuthProvider> */}
           {!isAuthenticated ? (
             <>
               <LoginPage />
